@@ -1,6 +1,6 @@
 <?php
 
-$strJsonFileContents = file_get_contents("blog.txt");
+$str_file_contents = file_get_contents("blog.txt");
 
 echo "<pre>";
 $arr = explode("---",$str_file_contents);
@@ -11,7 +11,12 @@ foreach($arr as $k => $v) {
         foreach($json_arr as $ky => $vl) {
             if(!empty($vl)) {
                 $new_arr = explode(":",$vl);
-                if(!empty($new_arr[0]) && !empty($new_arr[1])) {
+                if($new_arr[0] == 'date') { $new_arr[1] = $new_arr[1] .":" .$new_arr[2]; }
+                if($new_arr[0] == 'tags') { $tags_arr = explode(",",$new_arr[1]); 
+                    foreach($tags_arr as $ky_t => $vl_t) {
+                        $final_arr[$new_arr[0]][] = $vl_t;
+                    }                      
+                } else {
                     $final_arr[$new_arr[0]] = $new_arr[1];
                 } 
             }
